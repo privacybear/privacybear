@@ -1,14 +1,24 @@
 import React, { Component } from 'react'
-import Logo from './components/Logo';
-import { Button } from "@chakra-ui/core";
+import { Home } from './components/Home';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from 'react-router-dom';
 
-export class App extends Component{
+export class App extends Component {
   render() {
     return (
       <div>
-        Hi bro
-        <Button>Hi</Button>
-        <Logo/>
+        <Router>
+          <Switch>
+          <Route exact path="/">
+              <Home />
+          </Route>
+          <Route><h1 style={{color: '#fff'}}>404</h1></Route>
+          </Switch>
+        </Router>
       </div>
     )
   }

@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import App from './components/Home';
 import * as serviceWorker from './serviceWorker';
 import { ThemeProvider, CSSReset } from '@chakra-ui/core'
 
@@ -12,6 +12,7 @@ import { ThemeProvider, CSSReset } from '@chakra-ui/core'
       800: "#8C9EFF",
       700: "#EFE2DD",
       */
+
 
 ReactDOM.render(
   <React.StrictMode>
