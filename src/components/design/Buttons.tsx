@@ -30,6 +30,7 @@ export class Buttons extends Component<Props> {
           size={this.props.size || "md"}
           bg="#fff"
           color={colors.primaryColor}
+          border={`1px solid ${colors.primaryColor}`}
           fontWeight="bolder"
           transition="all 0.2s cubic-bezier(.08,.52,.52,1)"
           _hover={{ bg: "#fff", transform: "translate(0, -5px)" }}

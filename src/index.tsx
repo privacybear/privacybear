@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './components/Home';
+import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { ThemeProvider, CSSReset } from '@chakra-ui/core'
 

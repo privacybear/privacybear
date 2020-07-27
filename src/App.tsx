@@ -1,11 +1,14 @@
 import React, { Component } from 'react'
 import { Home } from './components/Home';
+import { Login, Register } from './components/Auth/auth';
+import { createBrowserHistory } from 'history';
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
-  Link
+  Route
 } from 'react-router-dom';
+
+const history = createBrowserHistory();
 
 export class App extends Component {
   render() {
@@ -13,10 +16,10 @@ export class App extends Component {
       <div>
         <Router>
           <Switch>
-          <Route exact path="/">
-              <Home />
-          </Route>
-          <Route><h1 style={{color: '#fff'}}>404</h1></Route>
+            <Route exact path="/login" component={Login} />
+            <Route exact path="/register" component={Register} />
+            <Route exact path="/" component={Home} />
+            <Route path="*">HAHAHA</Route>
           </Switch>
         </Router>
       </div>

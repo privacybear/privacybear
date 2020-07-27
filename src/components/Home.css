@@ -2,6 +2,10 @@
     --primary-color: #8C9EFF;
 }
 
+*{
+    background-color: #222222;
+}
+
 h1{
     font-family: 'Open Sans', sans-serif;
     font-weight: 900;
