@@ -1,48 +1,80 @@
-import React from "react";
+import React, { Component } from 'react'
 import Layout from "./Layout";
-import Title from "../design/Title";
+import { Title, Buttons, Logo } from '../design';
 import {
   FormControl,
   FormLabel,
   Input,
-  Button,
   FormErrorMessage,
+  Flex
 } from "@chakra-ui/core";
 import { Formik, Field } from "formik";
+import { Link } from 'react-router-dom';
+import { toast } from "react-toastify";
+import { serverURL } from '../server-config';
+import { postData, setCredentials } from './auth';
 
-export function Login() {
-  function validateEmail(value: string) {
+export class Login extends Component {
+  validateEmail(value: string){
     let error;
-    if (!value) {
-      error = "Email is required";
-    }
+    if (!value) error = "💔 Oops! We need your email.";
     return error;
   }
-  function validatePassword(password?: string) {
+  validatePassword(value: string) {
     let error;
-    if (!password) {
-      error = "Password is required";
-    } else if (password.length < 8) {
-      error = "Password has to be at least 8 characters long";
-    }
+    if (!value) error = "🥁 Dum dum dum, where's your password?";
     return error;
   }
 
-  return (
-    <Layout>
-      <Title content="Login">Login</Title>
-      <Formik
+  render() {
+    return (
+      <Layout>
+        <Flex
+          align="center"
+          justifyContent="center"
+          alignItems="center"
+          flexDirection="column"
+          mt={5}
+          style={{padding: 15}}
+        >
+        <Logo style={{width: 100, height: 100, padding: 10}} isSVG={true} />
+        <Title content="Login" style={{ padding: 10, fontSize: '4rem' }}/>
+        <Formik<{ email: string, password: string }>
         initialValues={{ email: "", password: "" }}
-        onSubmit={(values, actions) => {
-          setTimeout(() => {
-            alert(JSON.stringify(values, null, 2));
-            actions.setSubmitting(false);
-          }, 1000);
+        onSubmit={(values: any, actions: any) => {
+          postData(serverURL + '/users/login', values)
+              .then(data => {
+                if (data.error) {
+                  toast.error('🤐 Oops! ' + data.error, {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                  })
+                  actions.setSubmitting(false);
+                } else {
+                  toast.dark("✅ Logging in...", {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                  })
+                  setCredentials(JSON.stringify(data.token));
+                  actions.setSubmitting(false);
+                  console.log(JSON.stringify(data));
+                }
+              });
         }}
-      >
-        {(props) => (
-          <form onSubmit={props.handleSubmit}>
-            <Field name="email" validate={validateEmail}>
+        >
+          {(props: any) => (
+          <form onSubmit={props.handleSubmit} style={{width: '50%'}}>
+            <Field name="email" validate={this.validateEmail}>
               {({ field, form }: any) => (
                 <FormControl
                   isInvalid={form.errors.email && form.touched.email}
@@ -51,7 +83,7 @@ export function Login() {
                   <Input
                     {...field}
                     id="email"
-                    placeholder="email"
+                    placeholder="eg. hello@tesla.com"
                     type="email"
                     autoComplete="email"
                   />
@@ -59,7 +91,7 @@ export function Login() {
                 </FormControl>
               )}
             </Field>
-            <Field name="password" validate={validatePassword}>
+            <Field name="password" validate={this.validatePassword}>
               {({ field, form }: any) => (
                 <FormControl
                   isInvalid={form.errors.password && form.touched.password}
@@ -68,7 +100,7 @@ export function Login() {
                   <Input
                     {...field}
                     id="password"
-                    placeholder="password"
+                    placeholder="eg. ISecretleyLoveNasa@28"
                     type="password"
                     autoComplete="new-password"
                   />
@@ -76,19 +108,29 @@ export function Login() {
                 </FormControl>
               )}
             </Field>
-            <Button
-              mt={4}
-              variantColor="teal"
-              isLoading={props.isSubmitting}
-              type="submit"
-            >
-              Submit
-            </Button>
+              <Buttons
+                style={{marginTop: '2rem', width: '100%' }}
+                designType="primary"
+                isLoading={props.isSubmitting}
+                type="submit"
+              >
+                  Login
+            </Buttons>
+            <Link to="/register">
+              <Buttons
+                style={{ marginTop: '1rem', width: '100%' }}
+              >
+                <span role="img" aria-label="Peeking above.">🙄</span> Don't have an account? Register instead.
+              </Buttons>    
+            </Link>
           </form>
         )}
       </Formik>
-    </Layout>
-  );
+        </Flex>
+        
+      </Layout>
+    )
+  }
 }
 
-export default Login;
+export default Login

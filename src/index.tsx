@@ -1,9 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+import 'react-toastify/dist/ReactToastify.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { ThemeProvider, CSSReset } from '@chakra-ui/core'
+import { ToastContainer } from "react-toastify";
 
 
 // Custom Colors
@@ -18,6 +20,17 @@ ReactDOM.render(
   <React.StrictMode>
     <ThemeProvider>
       <CSSReset />
+      <ToastContainer
+      position="top-right"
+      autoClose={5000}
+      hideProgressBar={false}
+      newestOnTop={false}
+      closeOnClick
+      rtl={false}
+      pauseOnFocusLoss
+      draggable
+      pauseOnHover
+      ></ToastContainer>
       <App />
       </ThemeProvider>
   </React.StrictMode>,

@@ -9,7 +9,7 @@ export class Logo extends Component<Props> {
   render() {
     return (
       <div className="logo">
-        <img src={this.props.isSVG ? logoSVG : logo} style={this.props.style} alt="Logo"/>
+        <img src={this.props.isSVG ? logoSVG : logo} style={this.props.style} alt="Logo" draggable="false"/>
       </div>
     )
   }

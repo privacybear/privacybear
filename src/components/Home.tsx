@@ -8,7 +8,7 @@ import "./Home.css";
 export class Home extends Component {
   render() {
     return (
-      <div>
+      <div className="home__root">
         <div style={{ margin: 10, padding: 10 }} className="_hover">
           <Logo style={{ height: 100, width: 100 }} isSVG={true} />
         </div>
@@ -28,7 +28,7 @@ export class Home extends Component {
               className="button__group"
             >
               <Link to="/register">
-                <Buttons size="lg" type="primary">
+                <Buttons size="lg" designType="primary">
                   Signup
                 </Buttons>
               </Link>
