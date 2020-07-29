@@ -19,19 +19,21 @@ export async function postData(url = '', data = {}) {
   return response.json(); // parses JSON response into native JavaScript objects
 }
 
-export async function setCredentials(token: string) {
-  localStorage.setItem("token", token);
+export function setCredentials(token: string) {
+  const item = localStorage.setItem("token", token);
+  console.log(item);
 }
 
-export async function checkCredentials() {
+export function checkCredentials() {
   const token = localStorage.getItem("token");
   console.log(token)
   console.log(!!token && String(token) !== "null" && String(token) !== "undefined");
   return !!token && String(token) !== "null" && String(token) !== "undefined";
 }
 
-export async function getCredentials(){
+export function getCredentials(){
   const token = localStorage.getItem("token");
+  console.log(token);
   if (token === null || token === undefined) {
     logout();
     return "Token doesn't exist."
@@ -39,6 +41,7 @@ export async function getCredentials(){
   return token;
 }
 
-export async function logout() {
+export function logout() {
+  console.log(localStorage.getItem("token"));
   localStorage.removeItem("token");
 }

@@ -3,15 +3,16 @@ import { Redirect } from 'react-router-dom';
 import { toast } from "react-toastify";
 import { logout } from './auth';
 
-logout();
+
 
 export class Logout extends Component {
-  render() {
+  componentDidMount() {
+    logout();
+    toast.success("✅ Logged out.")
+  }
+  render() {    
     return (
-      <div>
-        {toast.success("✅ Logged out")}
         <Redirect to="/login" />
-      </div>
     )
   }
 }

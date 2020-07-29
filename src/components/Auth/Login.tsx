@@ -84,9 +84,9 @@ export class Login extends Component<{}, { redirect: string | null}> {
                     draggable: true,
                     progress: undefined,
                   })
-                  setCredentials(JSON.stringify(data.token));
+                  setCredentials(data.token);
                   actions.setSubmitting(false);
-                  console.log(JSON.stringify(data));
+                  this.setState({redirect: '/dashboard'})
                 }
               });
         }}
