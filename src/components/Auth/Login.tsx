@@ -9,12 +9,28 @@ import {
   Flex
 } from "@chakra-ui/core";
 import { Formik, Field } from "formik";
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { toast } from "react-toastify";
 import { serverURL } from '../server-config';
-import { postData, setCredentials } from './auth';
+import { postData, setCredentials, checkCredentials } from './auth';
 
-export class Login extends Component {
+export class Login extends Component<{}, { redirect: string | null}> {
+  constructor(props: {}) {
+    super(props);
+    this.state = {
+      redirect: null
+    }
+  }
+  componentDidMount() {
+    if (checkCredentials()) {
+      this.setState({ redirect: '/dashboard' });
+    }
+  }
+  componentDidUpdate() {
+    if (checkCredentials()) {
+      this.setState({ redirect: '/dashboard' });
+    }
+  }
   validateEmail(value: string){
     let error;
     if (!value) error = "💔 Oops! We need your email.";
@@ -27,6 +43,9 @@ export class Login extends Component {
   }
 
   render() {
+    if (this.state.redirect) {
+      return <Redirect to={this.state.redirect} />
+    }
     return (
       <Layout>
         <Flex

@@ -1,5 +1,6 @@
 export { Login } from "./Login";
 export { Register } from "./Register";
+export { Logout } from './Logout';
 
 export async function postData(url = '', data = {}) {
   const response = await fetch(url, {
@@ -24,7 +25,9 @@ export async function setCredentials(token: string) {
 
 export async function checkCredentials() {
   const token = localStorage.getItem("token");
-  return !!token
+  console.log(token)
+  console.log(!!token && String(token) !== "null" && String(token) !== "undefined");
+  return !!token && String(token) !== "null" && String(token) !== "undefined";
 }
 
 export async function getCredentials(){

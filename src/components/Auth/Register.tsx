@@ -23,9 +23,14 @@ export class Register extends Component<Props, { redirect: string | null }> {
       redirect: null
     }
   }
+  componentDidMount() {
+    if (checkCredentials()) {
+      this.setState({ redirect: '/dashboard' });
+    }
+  }
   componentDidUpdate() {
-    if (!checkCredentials()) {
-      this.setState({ redirect: '/login' });
+    if (checkCredentials()) {
+      this.setState({ redirect: '/dashboard' });
     }
   }
   validateName(value: string) {
