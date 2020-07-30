@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
+import { Logo } from '../design';
+import { colors } from '../design/constants';
+import { Flex, Text } from '@chakra-ui/core'; 
 import { checkCredentials } from '../Auth/auth';
-import { getUserData } from './dash';
+import { Stats, Menu, getUserData } from './dash';
 import { Redirect } from 'react-router-dom';
 import { toast } from "react-toastify";
 
@@ -47,7 +50,31 @@ export class Dashboard extends Component<{}, { redirect: string | null, user: Us
     }
     return (
       <div>
-        Dashboard, Hello {this.state.user.name}
+        <Flex
+          align="center"
+          justifyContent="center"
+          alignItems="center"
+          flexDirection="column"
+          mt={5}
+          padding={15}
+        >
+          <Logo style={{ width: 100, height: 100, padding: 10 }} isSVG={true} />
+          <Text
+            mt={5}
+            style={{textTransform: "uppercase"}}
+            fontWeight="800"
+            fontSize={["4xl", "5xl", "5xl", "6xl"]}>
+            Hi, <span style={{color: colors.primaryColor}}>{this.state.user.name}</span>
+          </Text>
+          <Menu />
+          <Flex flexDirection="row" style={{ padding: 5 }}>
+            <Stats value="280" description="Times you've shared sensitive information." iconType="increase" m={3.5}/>
+            <Stats m={3.5} value="15" description="Sites you've shared sensitive information with." iconType="decrease"/>
+            <Stats m={3.5} value="28" description="Times you could've blocked sharing sensitive information."/>
+          </Flex>
+          
+        </Flex>
+        
       </div>
     )
   }

@@ -2,6 +2,8 @@ import { getCredentials } from '../Auth/auth';
 import { serverURL } from '../server-config';
 
 export { Dashboard } from "./Dashboard";
+export { Stats } from "./Stats";
+export { Menu } from "./Menu";
 
 export async function fetchWithCredentials(url: string) {
   const response = await fetch(url, {
