@@ -85,6 +85,7 @@ export class Login extends Component<{}, { redirect: string | null}> {
                     progress: undefined,
                   })
                   setCredentials(data.token);
+                  localStorage.setItem('user', JSON.stringify(data.user));
                   actions.setSubmitting(false);
                   this.setState({redirect: '/dashboard'})
                 }

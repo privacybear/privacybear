@@ -26,8 +26,6 @@ export function setCredentials(token: string) {
 
 export function checkCredentials() {
   const token = localStorage.getItem("token");
-  console.log(token)
-  console.log(!!token && String(token) !== "null" && String(token) !== "undefined");
   return !!token && String(token) !== "null" && String(token) !== "undefined";
 }
 
@@ -44,4 +42,5 @@ export function getCredentials(){
 export function logout() {
   console.log(localStorage.getItem("token"));
   localStorage.removeItem("token");
+  localStorage.removeItem("user");
 }
