@@ -1,22 +1,30 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import { Text } from "@chakra-ui/core";
 
 interface Props {
-  content: string,
-  color?: string,
-  style?: object,
-  className?: string
+  content: string;
+  color?: string;
+  style?: object;
+  className?: string;
 }
-interface State { }
+interface State {}
 
 export class Title extends Component<Props, State> {
   render() {
     return (
       <div>
-        <Text fontWeight="800" color={this.props.color} style={this.props.style} className={this.props.className}>{this.props.content}</Text>
+        <Text
+          fontWeight="800"
+          color={this.props.color}
+          style={this.props.style}
+          className={this.props.className}
+          fontSize={["4xl", "5xl", "5xl", "6xl"]}
+        >
+          {this.props.content}
+        </Text>
       </div>
-    )
+    );
   }
 }
 
-export default Title
+export default Title;

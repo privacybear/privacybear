@@ -1,49 +1,45 @@
-:root{
-    --primary-color: #8C9EFF;
+:root {
+  --primary-color: #8c9eff;
 }
 
-
-h1{
-    font-family: 'Open Sans', sans-serif;
-    font-weight: 900;
-    height: 12vh;
+h1 {
+  font-family: "Open Sans", sans-serif;
+  font-weight: 900;
+  height: 12vh;
 }
 
-.link{
-    color: var(--primary-color);
-    font-size: 1rem;
-    text-decoration: none;
+.link {
+  color: var(--primary-color);
+  font-size: 1rem;
+  text-decoration: none;
 }
 
-.hero__title{
-    color: var(--primary-color);
-    font-size: 8rem;
+.hero__title,
+.hero__subtitle {
+  color: var(--primary-color);
 }
 
-.hero__subtitle{
-    color: var(--primary-color);
-    font-size: 3.5rem;
-    font-style: italic;
-    margin-top: -1rem;
+.hero__subtitle {
+  font-size: 3.5rem;
+  font-style: italic;
+  margin-top: -1rem;
 }
 
 .button {
-    background: #fff;
-    color: var(--primary-color);
+  background: #fff;
+  color: var(--primary-color);
 }
 
 .button__primary {
-    background-color: var(--primary-color);
-    color: #fff;
+  background-color: var(--primary-color);
+  color: #fff;
 }
 
-.button__group{
-    margin: 1rem;
+.button__group {
+  margin: 1rem;
 }
-
 
 /* Animations */
 
-._hover{
-    
+._hover {
 }

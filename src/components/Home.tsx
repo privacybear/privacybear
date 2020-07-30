@@ -20,7 +20,12 @@ export class Home extends Component {
             flexDirection="column"
           >
             <Title content="Privacy Bear" className="hero__title" />
-            <Text className="hero__subtitle">Be in control.</Text>
+            <Text
+              className="hero__subtitle"
+              fontSize={["2xl", "3xl", "3xl", "4xl"]}
+            >
+              Be in control.
+            </Text>
 
             <Grid
               templateColumns="repeat(2, 1fr)"
