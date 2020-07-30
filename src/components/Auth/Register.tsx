@@ -99,6 +99,7 @@ export class Register extends Component<Props, { redirect: string | null }> {
                     progress: undefined,
                   })
                   setCredentials(data.token);
+                  localStorage.setItem('user', JSON.stringify(data.user));
                   actions.setSubmitting(false);
                   console.log(data);
                 }
