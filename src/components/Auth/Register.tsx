@@ -102,6 +102,7 @@ export class Register extends Component<Props, { redirect: string | null }> {
                   setCredentials(data.token);
                   localStorage.setItem('user', JSON.stringify(data.user));
                   actions.setSubmitting(false);
+                  this.setState({ redirect: "/dashboard" });
                   console.log(data);
                 }
               });
