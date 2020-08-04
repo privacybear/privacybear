@@ -1,30 +1,39 @@
-import React, { Component } from 'react'
-import { Logo } from '../design';
-import { colors } from '../design/constants';
-import { Flex, Text } from '@chakra-ui/core'; 
-import { checkCredentials } from '../Auth/auth';
-import { Stats, Menu, getUserData } from './dash';
-import { Redirect } from 'react-router-dom';
+import React, { Component } from "react";
+import { Logo } from "../design";
+import { colors } from "../design/constants";
+import { Flex, Text } from "@chakra-ui/core";
+import { checkCredentials } from "../Auth/auth";
+import {
+  Stats,
+  Menu,
+  getUserData,
+  getUserHistory,
+  getWebsitesVisited,
+} from "./dash";
+import { Redirect } from "react-router-dom";
 import { toast } from "react-toastify";
 
 interface User {
-  name: string,
-  email: string,
-  avatar?: string,
-  timestamp: string,
+  name: string;
+  email: string;
+  avatar?: string;
+  timestamp: string;
 }
 
-export class Dashboard extends Component<{}, { redirect: string | null, user: User | null }> {
+export class Dashboard extends Component<
+  {},
+  { redirect: string | null; user: User | null }
+> {
   constructor(props: {}) {
     super(props);
     this.state = {
       redirect: null,
       user: null,
-    }
+    };
   }
   componentDidMount() {
     if (!checkCredentials()) {
-      toast.error('😪 You need to be logged in...', {
+      toast.error("😪 You need to be logged in...", {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -32,18 +41,20 @@ export class Dashboard extends Component<{}, { redirect: string | null, user: Us
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-      })
-      this.setState({ redirect: '/login' });
+      });
+      this.setState({ redirect: "/login" });
     }
-    getUserData()
-      .then(user => {
-        this.setState({ user: user });
-        console.log(user);  
-      })
+    getUserData().then((user) => {
+      this.setState({ user: user });
+      console.log(user);
+    });
+    getUserHistory().then((history) => {
+      this.setState({ history: getWebsitesVisited(history, 24 * 24) });
+    });
   }
   render() {
     if (this.state.redirect) {
-      return <Redirect to={this.state.redirect} />
+      return <Redirect to={this.state.redirect} />;
     }
     if (this.state.user == null) {
       return null;
@@ -61,23 +72,39 @@ export class Dashboard extends Component<{}, { redirect: string | null, user: Us
           <Logo style={{ width: 100, height: 100, padding: 10 }} isSVG={true} />
           <Text
             mt={5}
-            style={{textTransform: "uppercase"}}
+            style={{ textTransform: "uppercase" }}
             fontWeight="800"
-            fontSize={["4xl", "5xl", "5xl", "6xl"]}>
-            Hi, <span style={{color: colors.primaryColor}}>{this.state.user.name}</span>
+            fontSize={["4xl", "5xl", "5xl", "6xl"]}
+          >
+            Hi,{" "}
+            <span style={{ color: colors.primaryColor }}>
+              {this.state.user.name}
+            </span>
           </Text>
           <Menu />
           <Flex flexDirection="row" style={{ padding: 5 }}>
-            <Stats value="280" description="Times you've shared sensitive information." iconType="increase" m={3.5}/>
-            <Stats m={3.5} value="15" description="Sites you've shared sensitive information with." iconType="decrease"/>
-            <Stats m={3.5} value="28" description="Times you could've blocked sharing sensitive information."/>
+            <Stats
+              value="280"
+              description="Times you've shared sensitive information."
+              iconType="increase"
+              m={3.5}
+            />
+            <Stats
+              m={3.5}
+              value="15"
+              description="Sites you've shared sensitive information with."
+              iconType="decrease"
+            />
+            <Stats
+              m={3.5}
+              value="28"
+              description="Times you could've blocked sharing sensitive information."
+            />
           </Flex>
-          
         </Flex>
-        
       </div>
-    )
+    );
   }
 }
 
-export default Dashboard
+export default Dashboard;
