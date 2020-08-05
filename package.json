@@ -23,6 +23,7 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
     "react-toastify": "^6.0.8",
+    "react-vis": "^1.11.7",
     "typescript": "~3.7.2"
   },
   "scripts": {
@@ -45,5 +46,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/react-vis": "^1.11.2"
   }
 }
