@@ -17,7 +17,7 @@ import {
 } from "./dash";
 import { Redirect } from "react-router-dom";
 import { toast } from "react-toastify";
-import { XYPlot, LineSeries, VerticalBarSeries } from "react-vis";
+import { XYPlot, VerticalBarSeries } from "react-vis";
 
 interface User {
   name: string;
