@@ -1,13 +1,11 @@
 import { getCredentials } from "../Auth/auth";
 import { serverURL } from "../server-config";
-import { userInfo } from "os";
-import { time } from "console";
 
 export { Dashboard } from "./Dashboard";
 export { Stats } from "./Stats";
 export { Menu } from "./Menu";
 
-interface IHistory {
+export interface ISiteInfo {
   _id: string;
   permissions: Array<
     | "COOKIES"
@@ -55,17 +53,18 @@ export async function getUserData() {
   }
 }
 
-export async function getUserHistory(): Promise<IHistory[]> {
+export async function getUserHistory(): Promise<ISiteInfo[]> {
   let history = sessionStorage.getItem("history");
 
   if (history && !["null", "undefined"].includes(history + "")) {
-    return JSON.parse(history).history;
+    console.log({ history });
+    return JSON.parse(history);
   } else {
     const { history } = await fetchWithCredentials(serverURL + "/history");
 
     sessionStorage.setItem("history", JSON.stringify(history));
-
-    return history.history;
+    console.log({ history });
+    return history;
   }
 }
 
@@ -74,18 +73,47 @@ export async function getUserHistory(): Promise<IHistory[]> {
  * @param history History Data of a user from the database.
  * @param restriction A time restriction as a number in hours.
  */
-export async function getWebsitesVisited(
-  history: IHistory[],
-  restriction: number
-) {
+export function getWebsitesVisited(history: ISiteInfo[], restriction?: number) {
   const now = Date.now();
   const recentlyVisited = history
-    .filter(({ timestamp }) => +timestamp + restriction * 1000 * 60 * 60 >= now)
+    .filter(
+      ({ timestamp }) =>
+        !restriction || +timestamp + restriction * 1000 * 60 * 60 >= now
+    )
     .map(({ site }) => site);
 
   return recentlyVisited;
 }
 
-export async function getDataShareCount(history: IHistory[]) {
+export function getDataSharedCount(history: ISiteInfo[]) {
   return history.filter(({ permissions }) => permissions.length > 0).length;
+}
+
+export function removeDuplicates<T>(arr: T[]): T[] {
+  return Array.from(new Set(arr));
+}
+
+export function countSites(history: ISiteInfo[]) {
+  const counter = {} as { [key: string]: number };
+
+  for (let siteInfo of history) {
+    counter[siteInfo.site] = counter[siteInfo.site]
+      ? ++counter[siteInfo.site]
+      : 1;
+  }
+
+  return counter;
+}
+
+export function counterToChartData(counter: {
+  [key: string]: number;
+}): { x: string | number; y: number }[] {
+  const chartData = [] as { x: string | number; y: number }[];
+  let i = 0;
+  for (const item of Object.keys(counter)) {
+    chartData.push({ x: i++, y: counter[item] });
+  }
+
+  console.log({ chartData });
+  return chartData;
 }

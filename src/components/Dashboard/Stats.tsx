@@ -7,7 +7,6 @@ import {
   StatGroup,
   Box,
 } from "@chakra-ui/core";
-import "chart.js";
 
 export class Stats extends Component<{
   style?: CSSProperties;

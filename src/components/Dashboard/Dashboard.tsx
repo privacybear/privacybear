@@ -9,9 +9,15 @@ import {
   getUserData,
   getUserHistory,
   getWebsitesVisited,
+  getDataSharedCount,
+  ISiteInfo,
+  removeDuplicates,
+  countSites,
+  counterToChartData,
 } from "./dash";
 import { Redirect } from "react-router-dom";
 import { toast } from "react-toastify";
+import { XYPlot, LineSeries, VerticalBarSeries } from "react-vis";
 
 interface User {
   name: string;
@@ -22,13 +28,14 @@ interface User {
 
 export class Dashboard extends Component<
   {},
-  { redirect: string | null; user: User | null }
+  { redirect: string | null; user: User | null; history: ISiteInfo[] | null }
 > {
   constructor(props: {}) {
     super(props);
     this.state = {
       redirect: null,
       user: null,
+      history: null,
     };
   }
   componentDidMount() {
@@ -48,8 +55,8 @@ export class Dashboard extends Component<
       this.setState({ user: user });
       console.log(user);
     });
-    getUserHistory().then((history) => {
-      this.setState({ history: getWebsitesVisited(history, 24 * 24) });
+    getUserHistory().then(async (history) => {
+      this.setState({ history });
     });
   }
   render() {
@@ -84,23 +91,32 @@ export class Dashboard extends Component<
           <Menu />
           <Flex flexDirection="row" style={{ padding: 5 }}>
             <Stats
-              value="280"
+              value={getDataSharedCount(this.state.history || [])}
               description="Times you've shared sensitive information."
               iconType="increase"
               m={3.5}
             />
             <Stats
               m={3.5}
-              value="15"
+              value={
+                removeDuplicates(getWebsitesVisited(this.state.history || []))
+                  .length
+              }
               description="Sites you've shared sensitive information with."
               iconType="decrease"
             />
             <Stats
               m={3.5}
-              value="28"
+              value={getDataSharedCount(this.state.history || [])}
               description="Times you could've blocked sharing sensitive information."
             />
           </Flex>
+          <XYPlot height={200} width={200}>
+            <VerticalBarSeries
+              barWidth={0.8}
+              data={counterToChartData(countSites(this.state.history || []))}
+            />
+          </XYPlot>
         </Flex>
       </div>
     );
