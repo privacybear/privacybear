@@ -17,7 +17,8 @@ import {
 } from "./dash";
 import { Redirect } from "react-router-dom";
 import { toast } from "react-toastify";
-import { XYPlot, LineSeries, VerticalBarSeries } from "react-vis";
+import { Bar } from "react-chartjs-2";
+import "chart.js";
 
 interface User {
   name: string;
@@ -66,6 +67,22 @@ export class Dashboard extends Component<
     if (this.state.user == null) {
       return null;
     }
+    const userData = counterToChartData(countSites(this.state.history || []));
+    const chartData = {
+      labels: userData.labels,
+      datasets: [
+        {
+          label: "Websites Visited",
+          backgroundColor: "rgba(255,99,132,0.2)",
+          borderColor: "rgba(255,99,132,1)",
+          borderWidth: 1,
+          hoverBackgroundColor: "rgba(255,99,132,0.4)",
+          hoverBorderColor: "rgba(255,99,132,1)",
+          data: userData.data,
+        },
+      ],
+    };
+
     return (
       <div>
         <Flex
@@ -111,12 +128,7 @@ export class Dashboard extends Component<
               description="Times you could've blocked sharing sensitive information."
             />
           </Flex>
-          <XYPlot height={200} width={200}>
-            <VerticalBarSeries
-              barWidth={0.8}
-              data={counterToChartData(countSites(this.state.history || []))}
-            />
-          </XYPlot>
+          <Bar height={200} width={200} data={chartData}></Bar>
         </Flex>
       </div>
     );
