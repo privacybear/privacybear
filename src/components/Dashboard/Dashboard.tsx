@@ -68,16 +68,17 @@ export class Dashboard extends Component<
       return null;
     }
     const userData = counterToChartData(countSites(this.state.history || []));
-    const chartData = {
+
+    const activityChartData = {
       labels: userData.labels,
       datasets: [
         {
-          label: "Websites Visited",
-          backgroundColor: "rgba(255,99,132,0.2)",
-          borderColor: "rgba(255,99,132,1)",
-          borderWidth: 1,
-          hoverBackgroundColor: "rgba(255,99,132,0.4)",
-          hoverBorderColor: "rgba(255,99,132,1)",
+          label: "Your activity.",
+          backgroundColor: "rgba(140, 158, 255, 1)",
+          borderColor: "rgba(255, 255, 255, 1)",
+          borderWidth: 0.1,
+          hoverBackgroundColor: "rgba(61, 90, 254, 1)",
+          hoverBorderColor: "rgba(255, 255, 255, 1)",
           data: userData.data,
         },
       ],
@@ -128,7 +129,9 @@ export class Dashboard extends Component<
               description="Times you could've blocked sharing sensitive information."
             />
           </Flex>
-          <Bar height={200} width={200} data={chartData}></Bar>
+          <div>
+            <Bar height={300} width={300} data={activityChartData}></Bar>
+          </div> 
         </Flex>
       </div>
     );

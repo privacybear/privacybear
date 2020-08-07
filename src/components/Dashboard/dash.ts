@@ -112,7 +112,7 @@ export function counterToChartData(counter: {
     labels: string[];
     data: number[];
   };
-  let i = 0;
+  //let i = 0;
   for (const item of Object.keys(counter)) {
     chartData.labels.push(item);
     chartData.data.push(counter[item]);
