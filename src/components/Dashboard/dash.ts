@@ -107,11 +107,15 @@ export function countSites(history: ISiteInfo[]) {
 
 export function counterToChartData(counter: {
   [key: string]: number;
-}): { x: string | number; y: number }[] {
-  const chartData = [] as { x: string | number; y: number }[];
+}): { labels: string[]; data: number[] } {
+  const chartData = { labels: [], data: [] } as {
+    labels: string[];
+    data: number[];
+  };
   let i = 0;
   for (const item of Object.keys(counter)) {
-    chartData.push({ x: i++, y: counter[item] });
+    chartData.labels.push(item);
+    chartData.data.push(counter[item]);
   }
 
   console.log({ chartData });
