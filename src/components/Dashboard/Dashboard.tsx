@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import { Logo } from "../design";
 import { colors } from "../design/constants";
-import { Flex, Text } from "@chakra-ui/core";
+import { Flex, Grid, Text, Box, Image } from "@chakra-ui/core";
 import { checkCredentials } from "../Auth/auth";
+import error from './error.svg';
 import {
   Stats,
   Menu,
@@ -17,7 +18,7 @@ import {
 } from "./dash";
 import { Redirect } from "react-router-dom";
 import { toast } from "react-toastify";
-import { Bar } from "react-chartjs-2";
+import { Bar, Doughnut, Line, Radar } from "react-chartjs-2";
 import "chart.js";
 
 interface User {
@@ -29,7 +30,7 @@ interface User {
 
 export class Dashboard extends Component<
   {},
-  { redirect: string | null; user: User | null; history: ISiteInfo[] | null }
+  { redirect: string | null; user: User | null; history: ISiteInfo[] | false | null }
 > {
   constructor(props: {}) {
     super(props);
@@ -57,6 +58,9 @@ export class Dashboard extends Component<
       console.log(user);
     });
     getUserHistory().then(async (history) => {
+      if (history.length < 5) {
+        return this.setState({ history: false });
+      }
       this.setState({ history });
     });
   }
@@ -68,17 +72,20 @@ export class Dashboard extends Component<
       return null;
     }
     const userData = counterToChartData(countSites(this.state.history || []));
+    const chartStyles = {
+        label: "Your activity.",
+        backgroundColor: "rgba(140, 158, 255, 1)",
+        borderColor: "rgba(255, 255, 255, 1)",
+        borderWidth: 2,
+        hoverBackgroundColor: "rgba(61, 90, 254, 1)",
+        hoverBorderColor: "rgba(255, 255, 255, 1)",
+    }
 
     const activityChartData = {
       labels: userData.labels,
       datasets: [
         {
-          label: "Your activity.",
-          backgroundColor: "rgba(140, 158, 255, 1)",
-          borderColor: "rgba(255, 255, 255, 1)",
-          borderWidth: 0.1,
-          hoverBackgroundColor: "rgba(61, 90, 254, 1)",
-          hoverBorderColor: "rgba(255, 255, 255, 1)",
+          ...chartStyles,          
           data: userData.data,
         },
       ],
@@ -130,7 +137,37 @@ export class Dashboard extends Component<
             />
           </Flex>
           <div>
-            <Bar height={300} width={300} data={activityChartData}></Bar>
+            <Text
+              mt={5}
+              fontWeight="800"
+              color={colors.primaryColor}
+              fontSize={40}
+            >
+              Your Analytics
+            </Text>
+            {this.state.history ? (
+              <Grid templateColumns="1fr 1fr" gap={6}>
+              <Box p={5} boxShadow="md" borderWidth="0.2px">
+                <Bar height={300} width={300} data={activityChartData}></Bar>
+              </Box>
+              <Box p={5} boxShadow="md" borderWidth="0.2px">
+                <Doughnut height={300} width={300} data={activityChartData} />
+              </Box>
+               <Box p={5} boxShadow="md" borderWidth="0.2px">
+                <Line height={300} width={300} data={activityChartData} />
+              </Box>
+              <Box p={5} boxShadow="md" borderWidth="0.2px">
+                <Radar height={300} width={300} data={activityChartData} />
+              </Box>
+            </Grid>
+            ) : (
+                <div>
+                  <Box mt={5} size="sm" borderWidth="0.2px" boxShadow="md" p={5}>
+                    <Text mb={5} fontWeight="800" fontSize="28">Uh oh, you don't have enough data to show right now. Maybe go visit some websites?</Text>
+                    <Image src={error} alt="Uh oh" />
+                  </Box>
+                </div>
+            )}
           </div> 
         </Flex>
       </div>

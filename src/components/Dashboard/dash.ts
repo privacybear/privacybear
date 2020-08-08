@@ -101,9 +101,9 @@ export function countSites(history: ISiteInfo[]) {
       ? ++counter[siteInfo.site]
       : 1;
   }
-
   return counter;
 }
+
 
 export function counterToChartData(counter: {
   [key: string]: number;
@@ -112,12 +112,12 @@ export function counterToChartData(counter: {
     labels: string[];
     data: number[];
   };
-  //let i = 0;
+  // leti = 0;
   for (const item of Object.keys(counter)) {
     chartData.labels.push(item);
     chartData.data.push(counter[item]);
   }
 
-  console.log({ chartData });
+  // console.log({ chartData });
   return chartData;
 }
