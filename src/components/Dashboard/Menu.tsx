@@ -18,11 +18,11 @@ export class Menu extends Component {
             </BreadcrumbItem>
 
             <BreadcrumbItem>
-              <Link to="/dashboard" style={{color: colors.primaryColor}}>Graphs</Link>
+              <Link to="/dashboard/rules" style={{color: colors.primaryColor}}>Rules</Link>
             </BreadcrumbItem>
 
             <BreadcrumbItem isCurrentPage>
-              <Link to="/dashboard" style={{color: colors.primaryColor}}>History</Link>
+              <Link to="/dashboard/history" style={{color: colors.primaryColor}}>History</Link>
             </BreadcrumbItem>
 
             <BreadcrumbItem isCurrentPage>

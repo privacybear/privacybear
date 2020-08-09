@@ -4,6 +4,9 @@ import { serverURL } from "../server-config";
 export { Dashboard } from "./Dashboard";
 export { Stats } from "./Stats";
 export { Menu } from "./Menu";
+export { Layout } from "./Layout";
+export { History } from "./History";
+export { Rules } from "./Rules";
 
 export interface ISiteInfo {
   _id: string;

@@ -1,12 +1,11 @@
 import React, { Component } from "react";
-import { Logo } from "../design";
 import { colors } from "../design/constants";
 import { Flex, Grid, Text, Box, Image } from "@chakra-ui/core";
 import { checkCredentials } from "../Auth/auth";
 import error from './error.svg';
 import {
+  Layout,
   Stats,
-  Menu,
   getUserData,
   getUserHistory,
   getWebsitesVisited,
@@ -51,13 +50,13 @@ export class Dashboard extends Component<
         draggable: true,
         progress: undefined,
       });
-      this.setState({ redirect: "/login" });
+      return this.setState({ redirect: "/login" });
     }
     getUserData().then((user) => {
       this.setState({ user: user });
       console.log(user);
     });
-    getUserHistory().then(async (history) => {
+    getUserHistory().then((history) => {
       if (history.length < 5) {
         return this.setState({ history: false });
       }
@@ -93,27 +92,16 @@ export class Dashboard extends Component<
 
     return (
       <div>
-        <Flex
-          align="center"
-          justifyContent="center"
-          alignItems="center"
-          flexDirection="column"
-          mt={5}
-          padding={15}
-        >
-          <Logo style={{ width: 100, height: 100, padding: 10 }} isSVG={true} />
-          <Text
-            mt={5}
-            style={{ textTransform: "uppercase" }}
-            fontWeight="800"
-            fontSize={["4xl", "5xl", "5xl", "6xl"]}
-          >
-            Hi,{" "}
+        <Layout
+          title={
+            <div>
+              Hi,{" "}
             <span style={{ color: colors.primaryColor }}>
               {this.state.user.name}
-            </span>
-          </Text>
-          <Menu />
+              </span>
+            </div>
+          }
+        >
           <Flex flexDirection="row" style={{ padding: 5 }}>
             <Stats
               value={getDataSharedCount(this.state.history || [])}
@@ -169,7 +157,7 @@ export class Dashboard extends Component<
                 </div>
             )}
           </div> 
-        </Flex>
+        </Layout>
       </div>
     );
   }
